@@ -10,10 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrackNTriggery">
         <activity android:name=".dash"></activity>
-        <activity
-            android:name=".Full_dashboard"
-            android:label="@string/title_activity_full_dashboard"
-            android:theme="@style/Theme.TrackNTriggery.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
