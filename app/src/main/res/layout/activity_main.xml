@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="Google Sign-in"
+        android:text="Sign-in with Google"
         android:textColor="#100E0E"
         app:backgroundTint="#FFEB3B"
         app:layout_constraintBottom_toBottomOf="parent"
