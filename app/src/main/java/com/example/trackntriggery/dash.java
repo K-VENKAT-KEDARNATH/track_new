@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +21,7 @@ import java.util.HashMap;
 public class dash extends AppCompatActivity {
     Button logout;
     TextView name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,7 @@ public class dash extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
             }
@@ -38,13 +43,12 @@ public class dash extends AppCompatActivity {
             name.setText("Signed in as: "+signInAccount.getDisplayName());
         }
 
-        FirebaseDatabase.getInstance().getReference().child("track_data1").child("data1").setValue("NewDatat1");
-        HashMap<String,Object>map=new HashMap<>();
-        map.put("Kedar","pass");
-        HashMap<String,Object> number=new HashMap<>();
-        //map.put();
-        FirebaseDatabase.getInstance().getReference().child("track2").updateChildren(map);
 
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        if(isLoggedIn){
+            name.setText("Signed in as:"+ accessToken.getUserId());
+        }
     }
 
 }

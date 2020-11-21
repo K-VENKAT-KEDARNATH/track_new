@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN=123;
     private FirebaseAuth mAuth;
     Button gbutton;
-
+    private LoginButton loginButton;
+    CallbackManager callbackManager;
     @Override
     protected void onStart() {
         super.onStart();
@@ -35,21 +41,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent=new Intent(getApplicationContext(),dash.class);
             startActivity(intent);
         }
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mAuth=FirebaseAuth.getInstance();
-        createRequest();
-        findViewById(R.id.gbutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
     }
 
     private void createRequest() {
@@ -66,7 +58,43 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mAuth=FirebaseAuth.getInstance();
+        createRequest();
+        findViewById(R.id.gbutton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
+        loginButton=findViewById(R.id.login_button);
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                //TextView name=findViewById(R.id.name);
+                //name.setText("Signed-in as:"+loginResult.getAccessToken().getUserId());
+                Intent intent=new Intent(getApplicationContext(),dash.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+    }
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);

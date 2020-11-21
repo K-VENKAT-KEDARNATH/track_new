@@ -3,4 +3,6 @@
     <string name="title_activity_full_dashboard">Full_dashboard</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="facebook_app_id">1767007236800106</string>
+    <string name="fb_login_protocol_scheme">fb1767007236800106</string>
 </resources>
